@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>토큰 요청하기</h2>
+  <form id="loginForm" name="loginForm">
+    <input name="username" value="taeksoolee"/>
+    <input name="password" value="dlxortn1234"/>
+    <button>submit</button>
+  </form>
+
+  <h2>테이터 요청</h2>
+  <button id="print-btn">print</button>
+  <div id="data-list">
+    
+  </div>
+  <script>
+    var token = '';
+    document.getElementById('loginForm')
+      .addEventListener('submit', function(e) {
+        e.preventDefault()
+
+        fetch('http://127.0.0.1:8000/api/token/', {
+          method: 'POST',
+          headers: {
+            // 'Accept': 'text/plain;charset=UTF-8',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.username.value,
+            password: this.password.value
+          })
+        }).then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+
+          token = data.token;
+        })  
+        
+        return false;
+      });
+
+      document.getElementById('print-btn')
+      .addEventListener('click', function() {
+        const container = document.getElementById('data-list');
+        container.innerHTML = '';
+        fetch('http://127.0.0.1:8000/movies', {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          }
+        }).then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          
+          
+          data.forEach((item) => {
+            const li = document.createElement('li');
+            const {title, description, movie_type} = item;
+
+            li.innerText = `${title} / ${description} / ${movie_type}`;
+            container.appendChild(li);
+          });
+        })
+      });
+  </script>
+</body>
+</html>
