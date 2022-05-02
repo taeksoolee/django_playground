@@ -1,8 +1,8 @@
 # movie_api
 ## virtualenv환경
 ```shell
-.env/bin/activate # 가상환경 실행
-.env/bin/activate # 가상환경 종료
+source .env/bin/activate # 가상환경 실행
+deactivate # 가상환경 종료
 ```
 
 ## django-rest-framework 테스트 프로젝트
