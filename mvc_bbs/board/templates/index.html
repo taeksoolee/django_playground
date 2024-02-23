@@ -1,0 +1,13 @@
+{% if board_all_list %}
+  <ul>
+  {% for b in board_all_list %}
+    <!-- <li><a href="/board/detail/{{b.id}}"> -->
+    <!-- url 매핑 : url 'url_name' param -->
+    <li><a href="{% url 'board:detail' b.id %}">
+      {{ b.title }}
+    </a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>no list</p>
+{% endif %}
